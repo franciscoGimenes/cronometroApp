@@ -2,14 +2,15 @@ import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { Button, StyleSheet, Text, View, Image } from 'react-native';
 
-
 export default function App() {
   const [seconds, setSeconds] = useState(0)
   const [minutes, setMinutes] = useState(0)
-  const [customInterval, setcustomInterval] = useState()
+  const [customInterval, setCustomInterval] = useState()
+  const [backgroundColor, setBackgroundColor] = useState('#fff') // Cor inicial do fundo
 
   const startTimer = () => {
-    setcustomInterval(
+    setBackgroundColor('#00ff00'); // Altera a cor para verde ao iniciar
+    setCustomInterval(
       setInterval(() => {
         changeTime()
       }, 1000)
@@ -17,6 +18,7 @@ export default function App() {
   }
 
   const stopTimer = () => {
+    setBackgroundColor('#ff0000'); // Altera a cor para vermelho ao parar
     if (customInterval) {
       clearInterval(customInterval);
     }
@@ -26,11 +28,12 @@ export default function App() {
     stopTimer(0)
     setMinutes(0)
     setSeconds(0)
+    setBackgroundColor('#ffa500'); // Altera a cor para laranja ao limpar
   }
 
   const changeTime = () => {
     setSeconds((prevState) => {
-      if (prevState + 1 == 60) {
+      if (prevState + 1 === 60) {
         setMinutes(minutes + 1)
         return 0
       }
@@ -39,8 +42,8 @@ export default function App() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text>
+    <View style={[styles.container, { backgroundColor }]}>
+      <Text style={styles.titulo}>
         CRONOMETRO BACANA 
       </Text>
       <Image source={require("./assets/logo.png")} style={styles.logo}/>
@@ -62,7 +65,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -78,6 +80,8 @@ const styles = StyleSheet.create({
   logo: {
     marginBottom: 60,
     marginTop: 60,
-
+  },
+  titulo: {
+    fontSize: 30,
   }
 });
